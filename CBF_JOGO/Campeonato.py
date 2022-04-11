@@ -4,6 +4,9 @@ from partida.Partida import Partida
 from Time import Time
 
 
+
+
+
 class Campeonato:
     def __init__(self, ano):
         self.__serieA = []
@@ -31,6 +34,7 @@ class Campeonato:
             if r == "E":
                 if len(self.__rodadas) == 0:
                     print("Não Há rodada a ser editada!!")
+                    continue
                 else:
                     i = 1
                     time = 1
@@ -84,6 +88,7 @@ class Campeonato:
                     partidaEdit.GolsB = golsB
                     print(partidaEdit)
                     partidaEdit.pontos()
+                    continue
 
             elif r == "C":
                 novarodada = Rodada()
@@ -94,16 +99,12 @@ class Campeonato:
                         for times in self.__serieA:
                             print(f"{time} {times}")
                             time += 1
-                    escolhatimeA = ""
-                    while escolhatimeA.isdigit() == False:
-                        escolhatimeA = input(f"Digite o numero correspondente do time mandante da {partida}º partida)")
+                    escolhatimeA = input(f"Digite o numero correspondente do time mandante da {partida}º partida ")
+                    escolhatimeA = self.verificaNumeroValido(escolhatimeA)
                     escolhatimeA = int(escolhatimeA)
-                    escolhatimeB = ""
-                    while escolhatimeB.isdigit() == False:
-                        escolhatimeB = input(f"Digite o numero correspondente do time visitante da {partida}º partida")
-                    while (int(escolhatimeB) == escolhatimeA):
-                        escolhatimeB = input("Escolha um time diferente do time mandante:")
-                    escolhatimeB = int(escolhatimeB)
+
+                    escolhatimeB = input(f"Digite o numero correspondente do time visitante da {partida}º partida ")
+                    escolhatimeB = self.verificaNumeroValido(escolhatimeB)
                     escolhatimeB = int(escolhatimeB)
                     golsA = input(f"digite os gols do time mandante da {partida}º")
                     golsB = input(f"digite os gols do time visitante da {partida}º")
@@ -122,7 +123,21 @@ class Campeonato:
 
         return 0
 
+    def verificaNumeroValido(self, escolha):
+        if escolha.isdigit() == False:
+            while escolha.isdigit() == False:
+                escolha = input(f"Digite um numero Valido")
+                if escolha.isdigit():
+                    if int(escolha) < len(self.__serieA):
+                        return escolha
+        elif(escolha.isdigit() == True) and ((int(escolha) > (len(self.__serieA) + 1)) or int(escolha) == 0):
+            while escolha.isdigit() == True:
+                escolha = input(f"Digite um numero Valido")
+                if (int(escolha) < (len(self.__serieA) + 1)) and int(escolha) != 0:
+                    return escolha
 
+        else:
+            return escolha
 
 
     def checaFraudes(self):
